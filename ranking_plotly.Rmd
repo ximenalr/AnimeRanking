@@ -1,0 +1,69 @@
+---
+title: "Anime Ranking Plot"
+author: "Ximena Ramirez"
+date: "11/3/2020"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Rating by Type
+
+```{r plot, message=FALSE}
+#load necessary packages
+library(dplyr)
+library(ggplot2)
+library(plotly)
+
+#load and format data
+anime <- read.csv("anime.csv", colClasses = c("name"="character", "genre"="character"))
+
+anime = anime %>% 
+        filter(!type == "")%>%
+        group_by(type)
+
+#Make ggplot
+gg <- ggplot(data = anime, aes(rating)) +
+        geom_density(aes(fill = type), alpha = 0.4) +
+        xlim(0, 10) +
+        labs(x="Rating (out of 10)", 
+             y="Density", 
+             title="Distribution of Ratings by Anime Type")
+
+#Convert into a plotly interactive plot
+ggplotly(gg)
+```
+
+## Code for the Plot
+
+```{r code, message=FALSE, echo=TRUE, eval=FALSE}
+#load necessary packages
+library(dplyr)
+library(ggplot2)
+library(plotly)
+
+#load and format data
+anime <- read.csv("anime.csv", 
+        colClasses = c("name"="character", "genre"="character"))
+
+anime = anime %>% 
+        filter(!type == "")%>%
+        group_by(type)
+```
+
+## Code (cont.)
+
+```{r code2, message=FALSE, echo=TRUE, eval=FALSE}
+#Make ggplot
+gg <- ggplot(data = anime, aes(rating)) +
+        geom_density(aes(fill = type), alpha = 0.4) +
+        xlim(0, 10) +
+        labs(x="Rating (out of 10)", 
+             y="Density", 
+             title="Distribution of Ratings by Anime Type")
+
+#Convert into a plotly interactive plot
+ggplotly(gg)
+```
